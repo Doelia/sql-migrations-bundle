@@ -1,0 +1,21 @@
+version: '3.9'
+services:
+  php:
+    environment:
+      - DATABASE_URL=postgresql://postgres:123@db/postgres
+    build:
+      context: ../../
+      dockerfile: .cloud/test/Dockerfile
+    command: ["sh", "-c", "php ./vendor/bin/phpunit"]
+    depends_on:
+      db:
+        condition: service_healthy
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=123
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5

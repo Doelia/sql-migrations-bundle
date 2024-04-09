@@ -1,0 +1,24 @@
+parameters:
+
+  env(SQL_MIGRATIONS_TABLE): '_migrations'
+  env(SQL_MIGRATIONS_FOLDER): '%kernel.project_dir%/migrations'
+
+services:
+
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  SWouters\SqlMigrationsBundle\:
+    resource: '../src/*'
+    exclude: '../src/{DependencyInjection.php}'
+
+  SWouters\SqlMigrationsBundle\Service\DatabaseService:
+    arguments:
+      $db: '@doctrine.dbal.default_connection'
+      $migration_table: '%env(SQL_MIGRATIONS_TABLE)%'
+
+  SWouters\SqlMigrationsBundle\Service\MigrationsFilesService:
+    arguments:
+      $folder: '%env(SQL_MIGRATIONS_FOLDER)%'

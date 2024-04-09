@@ -1,0 +1,35 @@
+{
+    "name": "swouters/sql-migrations-bundle",
+    "description": "Allow symfony database versioning using SQL plain files.",
+    "type": "library",
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "authors": [
+        {
+            "name": "Stéphane Wouters",
+            "email": "contact@stephanewouters.fr"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "SWouters\\SqlMigrationsBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "php": ">=8.3",
+        "symfony/framework-bundle": "6.4.*",
+        "symfony/console": "6.4.*",
+        "doctrine/dbal": "^3.7"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.0",
+        "symfony/yaml": "6.4.*",
+        "symfony/dotenv": "6.4.*",
+        "doctrine/doctrine-bundle": "^2.12"
+    }
+}
