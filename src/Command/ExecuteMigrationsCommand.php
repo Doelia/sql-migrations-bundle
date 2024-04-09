@@ -44,6 +44,7 @@ class ExecuteMigrationsCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        ini_set('memory_limit', '-1');
 
         if ($input->getOption('drop-database') && !$input->getOption('dry-run')) {
             $output->writeln("drop database...");
