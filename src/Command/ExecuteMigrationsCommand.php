@@ -50,6 +50,8 @@ class ExecuteMigrationsCommand extends Command
             $this->db->resetDatabase();
         }
 
+        $this->db->createMigrationTableIfNotExists();
+
         $files_available = $this->files->getFileList();
         $files_to_process = $this->db->filterFilesToProcess($files_available, $input->getOption('skip-integrity-check'));
 

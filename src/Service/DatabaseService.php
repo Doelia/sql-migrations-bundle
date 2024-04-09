@@ -76,7 +76,6 @@ readonly class DatabaseService
     {
         $files_to_execute = [];
 
-
         foreach ($files_available as $file) {
 
             $checksum_executed = $this->alreadyExecuted($file);
