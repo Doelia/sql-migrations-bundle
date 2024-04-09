@@ -103,4 +103,9 @@ readonly class DatabaseService
         $this->db->commit();
     }
 
+    public function rollback(): void
+    {
+        $this->db->rollback();
+    }
+
 }

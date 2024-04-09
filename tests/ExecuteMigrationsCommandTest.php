@@ -29,7 +29,7 @@ class ExecuteMigrationsCommandTest extends TestKernel
 
         $this->getDatabaseService()->resetDatabase();
 
-        self::runCommand('sql-migrations:execute');
+        self::runCommand('sql-migrations:execute --drop-database');
 
         $dbal = $this->getDbal();
 

@@ -46,6 +46,8 @@ class ExecuteMigrationsCommand extends Command
     {
         ini_set('memory_limit', '-1');
 
+        $this->db->beginTransaction();
+
         if ($input->getOption('drop-database') && !$input->getOption('dry-run')) {
             $output->writeln("drop database...");
             $this->db->resetDatabase();
@@ -54,21 +56,26 @@ class ExecuteMigrationsCommand extends Command
         $this->db->createMigrationTableIfNotExists();
 
         $files_available = $this->files->getFileList();
-        $files_to_process = $this->db->filterFilesToProcess($files_available, $input->getOption('skip-integrity-check'));
+
+        if ($input->getOption('drop-database')) {
+            $files_to_process = $files_available;
+        } else {
+            $files_to_process = $this->db->filterFilesToProcess($files_available, $input->getOption('skip-integrity-check'));
+        }
 
         if (!count($files_to_process)) {
             $output->writeln("Already up to date.");
-            return 0;
+            $this->db->rollback();
+            return Command::SUCCESS;
         }
 
         if ($input->getOption('dry-run')) {
             $output->writeln("Files to process :");
             $output->writeln($files_to_process);
             $output->writeln("remove --dry-run to execute");
+            $this->db->rollback();
             return Command::SUCCESS;
         }
-
-        $this->db->beginTransaction();
 
         foreach ($files_to_process as $file) {
             $output->writeln("execute $file...");
