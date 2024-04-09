@@ -83,7 +83,7 @@ class MainTest extends TestKernel
         $files = $this->getFilesService()->getFileList();
         $filesToProcess = $databaseService->filterFilesToProcess($files);
 
-        $this->greaterThanOrEqual(2, count($filesToProcess));
+        $this->assertGreaterThanOrEqual(2, count($filesToProcess));
 
         foreach ($files as $file) {
             $databaseService->markAsExecuted($file);
