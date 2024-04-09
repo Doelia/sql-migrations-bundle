@@ -10,6 +10,10 @@ services:
     autoconfigure: true
     public: false
 
+  SWouters\SqlMigrationsBundle\:
+    resource: '../src/*'
+    exclude: '../src/{DependencyInjection.php}'
+
   SWouters\SqlMigrationsBundle\Service\DatabaseService:
     arguments:
       $db: '@doctrine.dbal.default_connection'
@@ -18,6 +22,3 @@ services:
   SWouters\SqlMigrationsBundle\Service\MigrationsFilesService:
     arguments:
       $folder: '%env(SQL_MIGRATIONS_FOLDER)%'
-
-  SWouters\SqlMigrationsBundle\Command\ExecuteMigrationsCommand:
-    arguments: []
