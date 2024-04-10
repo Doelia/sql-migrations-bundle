@@ -40,7 +40,7 @@ return [
 #### Step 1: Put your .sql migration files in a `migrations` directory at the root of your project
 
 The order of the files is important, the bundle will execute them in the order of their names.
-I recommend adding the date in the filename, like `2024-03-30-[feature].sql`, to keep track of the order.
+I recommend adding the date in the filename, like `YYYYMMDD_[feature].sql`, to keep track of the order.
 
 There is no down migration system.
 
