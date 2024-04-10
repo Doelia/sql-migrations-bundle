@@ -4,13 +4,12 @@ A Symfony bundle for database versioning, using only plain SQL files.
 
 Allow to maintain a database schema without using the Doctrine ORM entities system.
 
-Compatible only with PostgreSQL database using the public schema.
-
 ## Installation
 
 Prequisites:
 - PHP 8.3
 - Symfony 6.4
+- PostgreSQL using the public schema (not compatible with other databases for now)
 - Doctrine DBAL 4.* configured
 
 ### Step 1: Download the Bundle
