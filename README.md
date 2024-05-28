@@ -2,20 +2,32 @@
 
 A Symfony bundle for database versioning, using only plain SQL files.
 
-Allow to maintain a database schema without using the Doctrine ORM entities system.
+Allows maintaining a database schema without using the Doctrine ORM entities system.
 
 ## Installation
 
-Prequisites:
+Prerequisites:
 - PHP 8.3
 - Symfony 6.4
 - PostgreSQL using the public schema (not compatible with other databases for now)
 - Doctrine DBAL 4.* configured
 
+### Step 0: Prepare your project
+
+If you start with a fresh Symfony skeleton, you will need Doctrine to install the bundle.
+
+Install the ORM-pack (it's the only way to have \Connection services properly configured):
+```
+composer require orm-pack
+```
+
+We don't need the ORM parts; you can clean up your project:
+- remove `src/Entity` and `src/Repository` folders
+- in the `config/packages/doctrine.yaml`, keep only the `doctrine.dbal` parts
+
 ### Step 1: Download the Bundle
 
-Open a command console, enter your project directory and execute the
-following command to download the latest stable version of this bundle:
+Open a command console, enter your project directory, and execute the following command to download the latest stable version of this bundle:
 
 ```console
 composer require swouters/sql-migrations-bundle
