@@ -19,6 +19,7 @@ If you start with a fresh Symfony skeleton, you will need Doctrine to install th
 Install the ORM-pack (it's the only way to have \Connection services properly configured):
 ```
 composer require orm-pack
+composer require doctrine/dbal:^4
 ```
 
 We don't need the ORM parts; you can clean up your project:
