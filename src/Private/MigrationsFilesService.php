@@ -1,6 +1,6 @@
 <?php
 
-namespace SWouters\SqlMigrationsBundle\Service;
+namespace SWouters\SqlMigrationsBundle\Private;
 
 use Doctrine\DBAL\Connection;
 
@@ -10,8 +10,12 @@ readonly class MigrationsFilesService
         private string     $folder
     ) { }
 
-    public function getFileList()
+    public function getFileList(): array
     {
+        if (!is_dir($this->folder)) {
+            throw new \Exception("The folder " . $this->folder . " does not exist.");
+        }
+
         $files_available = glob($this->folder . '/*.sql');
 
         usort($files_available, function ($a, $b) {

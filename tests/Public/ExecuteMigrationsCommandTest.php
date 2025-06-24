@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests;
+namespace Public;
 
-use Symfony\Component\Console\Tester\CommandTester;
+use Tests\TestKernel;
 
 class ExecuteMigrationsCommandTest extends TestKernel
 {
@@ -29,7 +29,8 @@ class ExecuteMigrationsCommandTest extends TestKernel
 
         $this->getDatabaseService()->resetDatabase();
 
-        self::runCommand('sql-migrations:execute --drop-database');
+        $status = self::runCommand('sql-migrations:execute --drop-database');
+        $this->assertEquals(0, $status);
 
         $dbal = $this->getDbal();
 

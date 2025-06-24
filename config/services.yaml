@@ -10,15 +10,20 @@ services:
     autoconfigure: true
     public: false
 
-  SWouters\SqlMigrationsBundle\:
-    resource: '../src/*'
-    exclude: '../src/{DependencyInjection.php}'
+  SWouters\SqlMigrationsBundle\Public\Command\ExecuteMigrationsCommand:
+    public: true
 
-  SWouters\SqlMigrationsBundle\Service\DatabaseService:
+  SWouters\SqlMigrationsBundle\Private\DatabaseService:
     arguments:
       $db: '@doctrine.dbal.default_connection'
+
+  SWouters\SqlMigrationsBundle\Private\MigrationTableService:
+    arguments:
       $migration_table: '%env(SQL_MIGRATIONS_TABLE)%'
 
-  SWouters\SqlMigrationsBundle\Service\MigrationsFilesService:
+  SWouters\SqlMigrationsBundle\Private\MigrationsFilesService:
     arguments:
       $folder: '%env(SQL_MIGRATIONS_FOLDER)%'
+
+  SWouters\SqlMigrationsBundle\Public\SqlMigrationsBundleService:
+    public: true

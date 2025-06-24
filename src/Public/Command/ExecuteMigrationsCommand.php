@@ -1,9 +1,10 @@
 <?php
 
-namespace SWouters\SqlMigrationsBundle\Command;
+namespace SWouters\SqlMigrationsBundle\Public\Command;
 
-use SWouters\SqlMigrationsBundle\Service\DatabaseService;
-use SWouters\SqlMigrationsBundle\Service\MigrationsFilesService;
+use SWouters\SqlMigrationsBundle\Private\DatabaseService;
+use SWouters\SqlMigrationsBundle\Private\MigrationsFilesService;
+use SWouters\SqlMigrationsBundle\Private\MigrationTableService;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,7 +16,8 @@ class ExecuteMigrationsCommand extends Command
 {
 
     public function __construct(
-        private readonly DatabaseService $db,
+        private readonly DatabaseService  $db,
+        private readonly MigrationTableService $migrationTable,
         private readonly MigrationsFilesService $files,
     ) {
         parent::__construct();
@@ -53,14 +55,14 @@ class ExecuteMigrationsCommand extends Command
             $this->db->resetDatabase();
         }
 
-        $this->db->createMigrationTableIfNotExists();
+        $this->migrationTable->createMigrationTableIfNotExists();
 
         $files_available = $this->files->getFileList();
 
         if ($input->getOption('drop-database')) {
             $files_to_process = $files_available;
         } else {
-            $files_to_process = $this->db->filterFilesToProcess($files_available, $input->getOption('skip-integrity-check'));
+            $files_to_process = $this->migrationTable->filterFilesToProcess($files_available, $input->getOption('skip-integrity-check'));
         }
 
         if (!count($files_to_process)) {
@@ -80,7 +82,7 @@ class ExecuteMigrationsCommand extends Command
         foreach ($files_to_process as $file) {
             $output->writeln("execute $file...");
             $this->db->executeSqlFile($file);
-            $this->db->markAsExecuted($file);
+            $this->migrationTable->markAsExecuted($file);
         }
 
         $this->db->commit();

@@ -1,23 +1,16 @@
 <?php
 
-namespace SWouters\SqlMigrationsBundle\Service;
+namespace SWouters\SqlMigrationsBundle\Private;
 
 use Doctrine\DBAL\Connection;
 
-readonly class DatabaseService
+readonly class MigrationTableService
 {
 
     public function __construct(
         private Connection $db,
         private string     $migration_table
     ) { }
-
-    public function resetDatabase(): void
-    {
-        $this->db->executeQuery("DROP SCHEMA IF EXISTS public CASCADE;");
-        $this->db->executeQuery("CREATE SCHEMA public;");
-        $this->createMigrationTableIfNotExists();
-    }
 
     public function createMigrationTableIfNotExists(): void
     {
@@ -32,14 +25,6 @@ readonly class DatabaseService
         ");
     }
 
-    /**
-     * @param string $filename the path to the file to execute
-     */
-    public function executeSqlFile(string $filename): void
-    {
-        $sql = file_get_contents($filename);
-        $this->db->executeStatement($sql);
-    }
 
     /**
      * @param string $filename the path to the file to check
@@ -48,7 +33,7 @@ readonly class DatabaseService
     {
         $table = $this->migration_table;
 
-        $this->db->executeQuery("insert into $table (file, checksum) values (?, ?)", [
+        $this->db->executeQuery("INSERT INTO $table (file, checksum) values (?, ?)", [
             basename($filename),
             md5_file($filename)
         ]);
@@ -63,7 +48,7 @@ readonly class DatabaseService
         $table = $this->migration_table;
 
         return $this->db
-            ->executeQuery("select checksum from $table where file=?", [basename($filename)])
+            ->executeQuery("SELECT checksum FROM $table WHERE file=?", [basename($filename)])
             ->fetchOne();
     }
 
@@ -80,7 +65,7 @@ readonly class DatabaseService
 
             $checksum_executed = $this->alreadyExecuted($file);
 
-            if ($checksum_executed) {
+            if (!empty($checksum_executed)) {
                 if (!$skipIntegrityCheck && $checksum_executed != md5_file($file)) {
                     throw new \Exception("The file $file have changed before last execution. 
                     Check the file then retry. Add --skip-integrity-check to force execution.");
@@ -91,21 +76,6 @@ readonly class DatabaseService
         }
 
         return $files_to_execute;
-    }
-
-    public function beginTransaction(): void
-    {
-        $this->db->beginTransaction();
-    }
-
-    public function commit(): void
-    {
-        $this->db->commit();
-    }
-
-    public function rollback(): void
-    {
-        $this->db->rollback();
     }
 
 }

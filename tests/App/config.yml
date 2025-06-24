@@ -9,12 +9,13 @@ services:
     autoconfigure: true
     public: true
 
-  test.SWouters\SqlMigrationsBundle\Service\DatabaseService: '@SWouters\SqlMigrationsBundle\Service\DatabaseService'
-  test.SWouters\SqlMigrationsBundle\Service\MigrationsFilesService: '@SWouters\SqlMigrationsBundle\Service\MigrationsFilesService'
+  test.SWouters\SqlMigrationsBundle\Private\DatabaseService: '@SWouters\SqlMigrationsBundle\Private\DatabaseService'
+  test.SWouters\SqlMigrationsBundle\Private\MigrationsFilesService: '@SWouters\SqlMigrationsBundle\Private\MigrationsFilesService'
+  test.SWouters\SqlMigrationsBundle\Private\MigrationTableService: '@SWouters\SqlMigrationsBundle\Private\MigrationTableService'
 
 doctrine:
   dbal:
     driver: 'pdo_pgsql'
     url: '%env(DATABASE_URL)%'
-    server_version: 11
+    server_version: 14
 

@@ -7,10 +7,9 @@ Allows maintaining a database schema without using the Doctrine ORM entities sys
 ## Installation
 
 Prerequisites:
-- PHP 8.3
+- PHP 8.4
 - Symfony 6.4
 - PostgreSQL using the public schema (not compatible with other databases for now)
-- Doctrine DBAL 4.* configured
 
 ### Step 0: Prepare your project
 
@@ -18,8 +17,8 @@ If you start with a fresh Symfony skeleton, you will need Doctrine to install th
 
 Install the ORM-pack (it's the only way to have \Connection services properly configured):
 ```
-composer require orm-pack
-composer require doctrine/dbal:^4
+composer require orm
+composer remove doctrine/doctrine-migrations-bundle
 ```
 
 We don't need the ORM parts; you can clean up your project:
@@ -31,7 +30,7 @@ We don't need the ORM parts; you can clean up your project:
 Open a command console, enter your project directory, and execute the following command to download the latest stable version of this bundle:
 
 ```console
-composer require swouters/sql-migrations-bundle
+composer require swouters/sql-migrations-bundle:~1.1
 ```
 
 ### Step 2: Enable the Bundle
@@ -91,7 +90,7 @@ The docker stack includes the PHP runtime and the PostgreSQL database.
 #### Without Docker
 
 Prequisites:
-- Php 8.3 / Composer
+- Php 8.4 / Composer
 - A running PostgreSQL database
 - A dedicated database for tests
 
