@@ -25,6 +25,12 @@ readonly class MigrationTableService
         ");
     }
 
+    public function truncateMigrationTable(): void
+    {
+        $table = $this->migration_table;
+
+        $this->db->executeQuery("TRUNCATE TABLE $table");
+    }
 
     /**
      * @param string $filename the path to the file to check

@@ -12,6 +12,8 @@ services:
 
   SWouters\SqlMigrationsBundle\Public\Command\ExecuteMigrationsCommand:
     public: true
+  SWouters\SqlMigrationsBundle\Public\Command\MarkAppliedCommand:
+    public: true
 
   SWouters\SqlMigrationsBundle\Private\DatabaseService:
     arguments:

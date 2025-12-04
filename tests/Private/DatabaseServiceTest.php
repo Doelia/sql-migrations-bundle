@@ -1,6 +1,6 @@
 <?php
 
-namespace Private;
+namespace Tests\Private;
 
 use Tests\TestKernel;
 

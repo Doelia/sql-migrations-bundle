@@ -70,6 +70,18 @@ You can add the `--drop-database` option to drop the database (the public schema
 
 That command will use an internal table `_migrations` in the database to keep track of the applied migrations. You can change the name of the table by setting the `SQL_MIGRATIONS_TABLE` environment variable.
 
+#### Other commands
+
+Mark a migration as applied without executing it:
+```
+php bin/console sql-migrations:mark-applied ./migrations/<migration_filename.sql>
+```
+
+Reset the `_migration`  table and mark all migrations as applied without executing them:
+```
+php bin/console sql-migrations:mark-applied --all
+```
+
 ## Development
 
 Clone the repository :

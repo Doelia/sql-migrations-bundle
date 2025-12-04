@@ -1,6 +1,6 @@
 <?php
 
-namespace Private;
+namespace Tests\Private;
 
 use PHPUnit\Framework\TestCase;
 use SWouters\SqlMigrationsBundle\Private\MigrationsFilesService;

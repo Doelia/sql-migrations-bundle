@@ -1,6 +1,6 @@
 <?php
 
-namespace Private;
+namespace Tests\Private;
 
 use Tests\TestKernel;
 
@@ -28,6 +28,30 @@ class MigrationTableServiceTest extends TestKernel
         $md5 = $dbal->executeQuery("SELECT checksum from _migrations order by executed_at desc")->fetchOne();
         $this->assertEquals('5a697ab66486ecc3d1d51ab8560e321f', $md5);
 
+    }
+
+    public function testTruncateMigrationTable()
+    {
+        $this->bootKernel();
+        $databaseService = $this->getDatabaseService();
+        $migrationTable = $this->getMigrationTableService();
+        $dbal = $this->getDbal();
+
+        $databaseService->resetDatabase();
+        $migrationTable->createMigrationTableIfNotExists();
+
+        $files = $this->getFilesService()->getFileList();
+        foreach ($files as $file) {
+            $migrationTable->markAsExecuted($file);
+        }
+
+        $count = $dbal->executeQuery("SELECT count(*) from _migrations")->fetchOne();
+        $this->assertEquals(count($files), $count);
+
+        $migrationTable->truncateMigrationTable();
+
+        $count = $dbal->executeQuery("SELECT count(*) from _migrations")->fetchOne();
+        $this->assertEquals(0, $count);
     }
 
     public function testFilterFilesToProcess()
