@@ -54,6 +54,11 @@ class MarkAppliedCommand extends Command
             return Command::FAILURE;
         }
 
+        if (!$input->getOption('all') && !$input->getArgument('migration_filename')) {
+            $output->writeln("You must provide either the --all option or the migration_filename argument.");
+            return Command::FAILURE;
+        }
+
         if ($input->getOption('all')) {
             $output->writeln("drop migration table...");
             $this->migrationTable->truncateMigrationTable();
