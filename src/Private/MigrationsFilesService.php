@@ -2,8 +2,6 @@
 
 namespace SWouters\SqlMigrationsBundle\Private;
 
-use Doctrine\DBAL\Connection;
-
 readonly class MigrationsFilesService
 {
     public function __construct(
