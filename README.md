@@ -7,11 +7,11 @@ Allows maintaining a database schema without using the Doctrine ORM entities sys
 ## Installation
 
 Prerequisites:
-- PHP 8.4
-- Symfony 7.4
+- PHP >= 8.4
+- Symfony 7.4.*
 - PostgreSQL using the public schema (not compatible with other databases for now)
 
-### Step 0: Prepare your project
+### Step 1: Prepare your project
 
 If you start with a fresh Symfony skeleton, you will need Doctrine to install the bundle.
 
@@ -25,26 +25,12 @@ We don't need the ORM parts; you can clean up your project:
 - remove `src/Entity` and `src/Repository` folders
 - in the `config/packages/doctrine.yaml`, keep only the `doctrine.dbal` parts
 
-### Step 1: Download the Bundle
+### Step 2: Download the Bundle
 
 Open a command console, enter your project directory, and execute the following command to download the latest stable version of this bundle:
 
 ```console
-composer require swouters/sql-migrations-bundle:~2.0
-```
-
-### Step 2: Enable the Bundle
-
-Then, enable the bundle by adding it to the list of registered bundles
-in the `config/bundles.php` file of your project:
-
-```php
-// config/bundles.php
-
-return [
-    // ...
-    SWouters\SqlMigrationsBundle\SqlMigrationsBundle::class => ['all' => true],
-];
+composer require swouters/sql-migrations-bundle:~2.1
 ```
 
 ### Usage
